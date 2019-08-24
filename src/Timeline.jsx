@@ -10,9 +10,9 @@ import TimlineItem from "./TimlineItem";
  * @param {Array} items Array of events in the form of ts and text
  * @returns {Object} return object with key as date and values array in events for that date
  */
-function getFormattedData(items) {
+function getFormattedData(items, timeFormat) {
   const activities = {};
-  items.forEach(({ ts, text, timeFormat }, index) => {
+  items.forEach(({ ts, text }, index) => {
     const date = moment(ts);
     const dateStr = date.format("DD MMM YYYY");
     const list = activities[dateStr] || [];
@@ -26,8 +26,8 @@ function getFormattedData(items) {
   return activities;
 }
 
-function Timeline({ items }) {
-  const activities = getFormattedData(items);
+function Timeline({ items, timeFormat }) {
+  const activities = getFormattedData(items, timeFormat);
   const dates = Object.keys(activities);
   return (
     <div className="time-line-ctnr">
@@ -50,9 +50,9 @@ Timeline.propTypes = {
     PropTypes.shape({
       ts: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
-      timeFormat: PropTypes.string
     })
   ).isRequired,
+   timeFormat: PropTypes.string
 };
 
 Timeline.defaultProps = {
