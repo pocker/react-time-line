@@ -12,12 +12,12 @@ import TimlineItem from "./TimlineItem";
  */
 function getFormattedData(items) {
   const activities = {};
-  items.forEach(({ ts, text }, index) => {
+  items.forEach(({ ts, text, timeFormat }, index) => {
     const date = moment(ts);
     const dateStr = date.format("DD MMM YYYY");
     const list = activities[dateStr] || [];
     list.push({
-      time: date.format("hh:mm"),
+      time: date.format(timeFormat),
       text,
       key: index,
     });
@@ -50,8 +50,13 @@ Timeline.propTypes = {
     PropTypes.shape({
       ts: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
+      timeFormat: PropTypes.string
     })
   ).isRequired,
+};
+
+Timeline.defaultProps = {
+  timeFormat: 'HH:mm'
 };
 
 export default Timeline;
